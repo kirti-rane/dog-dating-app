@@ -1,0 +1,52 @@
+form {
+    display: flex;
+    flex-direction: column; /* Arrange form elements vertically */
+    align-items: flex-start; /* Align labels and inputs to the left */
+    background-color: #fdf6e3; /* Light background color */
+    padding: 20px;
+    border: 2px solid #ff4c68; /* Border with theme color */
+    border-radius: 8px; /* Rounded corners */
+    max-width: 400px; /* Restrict width */
+    margin: 20px auto; /* Center the form on the page */
+    font-family: Arial, sans-serif; /* Clean font style */
+  }
+  
+  form label {
+    font-weight: bold;
+    margin-bottom: 8px; /* Space between labels and inputs */
+  }
+  
+  form input {
+    width: 100%; /* Make inputs stretch to full width */
+    padding: 10px;
+    margin-bottom: 15px; /* Space between input fields */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 4px; /* Rounded input corners */
+    font-size: 14px;
+  }
+  
+  form input:focus {
+    outline: none;
+    border-color: #ff4c68; /* Highlight border on focus */
+    box-shadow: 0 0 5px #ff4c68; /* Subtle glow effect */
+  }
+  
+  form button {
+    background-color: #ff4c68; /* Button background */
+    color: white; /* Button text color */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #ff7a8b; /* Slightly brighter on hover */
+  }
+  
+  form button:active {
+    background-color: #e84357; /* Darker color on click */
+  }
+  

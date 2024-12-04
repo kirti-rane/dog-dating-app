@@ -1,14 +1,34 @@
-function signUp(){
+import Navbar from "./Navbar"
+import './signUp.css'
 
-    return(
+
+function signUp() {
+
+    return (
         <>
+            <Navbar />
             <form>
-                dogName: <input type="text" name="username"/>
-                email: <input type="email" name="email"/>
-                dog's Age: <input type="number" name="age"/>
-                breed: <input type="text" name="breed"/>
-                <submit>Submit</submit>
+                <label for="dogName">Dog Name:</label>
+                <input type="text" id="dogName" name="username" />
+
+                <label for="email">Owner's Email:</label>
+                <input type="email" id="email" name="email" />
+
+                <label for="age">Dog's Age:</label>
+                <input type="number" id="age" name="age" />
+
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed" />
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" />
+
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" />
+
+                <button type="submit">Submit</button>
             </form>
+
         </>
     )
 }

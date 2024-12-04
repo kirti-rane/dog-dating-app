@@ -1,0 +1,20 @@
+.date_review_carousel{
+
+    margin-top: 10px;
+    padding: 10px;
+  
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: #ff4c68; /* Add a visible background color */
+    border-radius: 50%; /* Optional: Make the icons circular */
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .carousel-control-prev-icon:hover,
+  .carousel-control-next-icon:hover {
+    background-color: #ff7a8b; /* Slightly different color for hover */
+  }
+  
