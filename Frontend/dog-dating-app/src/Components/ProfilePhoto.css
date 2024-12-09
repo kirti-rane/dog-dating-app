@@ -1,0 +1,36 @@
+.container {
+  text-align: center; /* Remove quotes */
+  margin-bottom: 20px;
+}
+
+label {
+  cursor: pointer; /* Remove quotes */
+}
+
+.profilePhotoWrapper {
+  width: 120px; /* Specify fixed size */
+  height: 120px; /* Specify fixed size */
+  border-radius: 50%; /* Make the wrapper circular */
+  overflow: hidden; /* Ensure content stays within the circle */
+  display: flex; /* Center content horizontally and vertically */
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #080707; /* Dark border */
+  background-color: #f0f0f0; /* Light background color */
+}
+
+.profilePhoto {
+  width: 100%; /* Fill the wrapper */
+  height: 100%; /* Fill the wrapper */
+  object-fit: cover; /* Keep aspect ratio and crop if necessary */
+  border-radius: 50%; /* Ensure the image is circular */
+}
+
+.defaultIcon {
+  font-size: 36px;
+  color: #aaa; /* Gray color for default icon */
+}
+
+.fileInput {
+  display: none; /* Hide file input */
+}
