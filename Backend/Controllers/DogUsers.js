@@ -2,19 +2,21 @@ const userDogValidate = require('../Validations/signUpVal')
 const multer = require('multer');
 const upload = require('../Middleware/multerConfig')
 const DogProfileSchema = require('../Models/DogProfileSchema')
-const {StatusCodes} = require('http-status-codes')
+const { StatusCodes } = require('http-status-codes')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize')
+
 
 const saltRound = 10
 
-const addUsers = async (request, response)=>{
+const addUsers = async (request, response) => {
 
     console.log("andr ghus gya")
     console.log(request.body)
     console.log(request.file)
 
-    try{
+    try {
 
         const error = userDogValidate.validate(request.body)
         const profilePhoto = request.file ? request.file.filename : null; // Get the filename of the uploaded photo
@@ -31,63 +33,112 @@ const addUsers = async (request, response)=>{
         console.log(breed)
         let password = request.body.password
         console.log(password)
-        
+
         const profilePhotoFile = request.file ? request.file.filename : null;  // Get the file name
         console.log(profilePhotoFile)
 
-        if(error.error){
+        if (error.error) {
 
-            return response.status(StatusCodes.BAD_REQUEST).json({StatusCodes: StatusCodes.BAD_REQUEST, message:error.error.message})
+            return response.status(StatusCodes.BAD_REQUEST).json({ StatusCodes: StatusCodes.BAD_REQUEST, message: error.error.message })
         }
 
-       
+
         let salt = await bcrypt.genSalt(saltRound)
         console.log(salt)
-       
-        let hashedPassword = await bcrypt.hash(password,salt)
+
+        let hashedPassword = await bcrypt.hash(password, salt)
         console.log(hashedPassword, "hashedPassword")
         password = hashedPassword
 
         const fetchUser = await DogProfileSchema.findOne({
 
-            where:{
+            where: {
                 ownerEmail: request.body.email,
                 dogName: request.body.dogName
             }
 
         })
 
-        if(fetchUser){
+        if (fetchUser) {
             console.log("this find one is the problemmm!!!!")
-            return response.status(StatusCodes.CONFLICT).json({StatusCodes: StatusCodes.CONFLICT, message: "The User already Exits!!"})
+            return response.status(StatusCodes.CONFLICT).json({ StatusCodes: StatusCodes.CONFLICT, message: "The User already Exits!!" })
         }
 
         let dogUser = await DogProfileSchema.create({
 
-            dogName : request.body.dogName,
-            ownerEmail : request.body.email,
-            age : request.body.age,
-            gender : request.body.gender,
-            breed : request.body.breed,
-            profilePhoto : request.file.filename,
-            password : password
+            dogName: request.body.dogName,
+            ownerEmail: request.body.email,
+            age: request.body.age,
+            gender: request.body.gender,
+            breed: request.body.breed,
+            profilePhoto: request.file.filename,
+            password: password
 
         })
 
-        if(dogUser){
+        if (dogUser) {
 
             console.log("This is the problem!!!!!!!!!!")
-            return response.status(StatusCodes.CREATED).json({StatusCodes: StatusCodes.CREATED, Message: "User Created successfully"})
-        }else{
+            return response.status(StatusCodes.CREATED).json({ StatusCodes: StatusCodes.CREATED, Message: "User Created successfully" })
+        } else {
 
-            throw("user not created!!")
+            throw ("user not created!!")
         }
 
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
         return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ statusCode: StatusCodes.INTERNAL_SERVER_ERROR, message: error.message })
     }
 }
 
-module.exports ={addUsers}
+
+
+const getUserDetails = async (request, response) => {
+
+    console.log("In the getUserDetails block")
+    console.log(request.body)
+
+    try {
+
+        let dogProfile = await DogProfileSchema.findOne({
+            where: {
+
+                [Op.and]: [
+                    {
+                        dogName: request.body.dogName,
+                        ownerEmail: request.body.email
+                    }
+                ]
+            }
+        })
+
+        console.log(dogProfile.dataValues)
+
+        if (dogProfile) {
+
+            const fetchedPassword = dogProfile.dataValues.password
+
+            let match = await bcrypt.compare(request.body.password,fetchedPassword)
+
+            console.log(fetchedPassword)
+
+            if(!match){
+
+                return response.status(StatusCodes.UNAUTHORIZED).json({statusCode: StatusCodes.UNAUTHORIZED, message:"Login Unsuccessful!!"})
+            }
+
+            return response.status(StatusCodes.OK).json({ statusCode: StatusCodes.OK, message: "User Found!!" })
+        }
+
+        return response.status(StatusCodes.NOT_FOUND).json({ statusCode: StatusCodes.NOT_FOUND, message: " User Not Found!!" })
+
+
+    } catch (err) {
+
+        console.log(err.message)
+
+    }
+}
+
+module.exports = { addUsers, getUserDetails }

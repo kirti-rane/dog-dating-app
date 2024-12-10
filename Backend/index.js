@@ -7,8 +7,9 @@ const DogUserRouter = require('./Routes/DogUsers');
 const app = express();
 
 app.use(cors());
-app.use('/dogUser', DogUserRouter);
 app.use(bodyParser.json());
+app.use('/dogUser', DogUserRouter);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 

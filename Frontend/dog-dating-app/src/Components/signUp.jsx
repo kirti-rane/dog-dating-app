@@ -5,8 +5,14 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import React, { useState } from "react";
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function SignUp() {
+
+    const navigate = useNavigate()
 
     const [profilePhoto, setProfilePhoto] = useState(null);
 
@@ -39,42 +45,72 @@ function SignUp() {
 
         onSubmit: async (values) => {
 
-            console.log(values)
-            console.log(values.ProfilePhoto)
+            // console.log(values)
+            // console.log(values.ProfilePhoto)
 
-            // Append individual fields from `values`
-        
-            try{
-                const payload ={
+            try {
+                const payload = {
 
-                    dogName:values.dogName,
+                    dogName: values.dogName,
                     email: values.email,
                     age: values.age,
                     gender: values.gender,
-                    breed:values.breed,
-                    password:values.password,
-                    confirmPassword:values.confirmPassword,
-                    profilePhoto:values.ProfilePhoto
+                    breed: values.breed,
+                    password: values.password,
+                    confirmPassword: values.confirmPassword,
+                    profilePhoto: values.ProfilePhoto
                 }
 
-    
-                 console.log(payload)
-                const response = await axios.post('http://localhost:4000/dogUser/signUp', payload,{
-                    
-                    headers: { 
-                        'Content-Type': 'multipart/form-data' 
+
+                //  console.log(payload)
+                const response = await axios.post('http://localhost:4000/dogUser/signUp', payload, {
+
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
                     }
                 }
                 );
                 console.log('Response:', response);
 
-            }catch(err){
+                if (response.status === 201) {
 
+                    formik.resetForm()
+                    toast.success("Account Created Successfully!", {
+
+                        position: "top-right",
+                        autoClose: 3000, // 3 seconds
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                    })
+                    navigate('/login')
+
+
+                }
+
+
+            } catch (err) {
+
+                formik.resetForm()
+                setProfilePhoto(null)
+                
+                toast.error("User Already Exists", {
+
+                    position: "top-right",
+                    autoClose: 3000, // 3 seconds
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                })
                 console.log("Error while creating the account!!")
                 console.log(err)
             }
 
-            
+
         }
 
     })
@@ -185,7 +221,6 @@ function SignUp() {
                     value={formik.values.confirmPassword} />
 
                 {formik.touched.confirmPassword && formik.errors.confirmPassword ? <div className="error_msg">{formik.errors.confirmPassword}</div> : null}
-
 
                 <button type="submit">Submit</button>
             </form>

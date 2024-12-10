@@ -12,4 +12,8 @@ router.post('/signUp', (req, res, next) => {
     });
   }, controller.addUsers);
 
+
+//get the user profile details
+router.post('/login',controller.getUserDetails)
+
 module.exports = router;

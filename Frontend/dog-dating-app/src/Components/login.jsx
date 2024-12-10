@@ -2,8 +2,12 @@ import "./login.css"
 import Navbar from "./Navbar"
 import {useFormik} from "formik"
 import * as Yup from "yup";
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+
+    const navigate = useNavigate()
 
     const formik = useFormik({
 
@@ -20,12 +24,35 @@ function Login() {
             password: Yup.string().required("Password is required")
 
         }),
-        onSubmit:(values)=>{
+        onSubmit:async (values)=>{
 
             //call the backend api using axios lib
-            console.log(values)
-            formik.resetForm()
-            console.log(values)
+
+            try{
+
+                const payload = {
+
+                    dogName: values.dogName,
+                    email: values.email,
+                    password: values.password
+
+                }
+                console.log("payload", payload)
+
+
+                const response = await axios.post("http://localhost:4000/dogUser/login",payload)
+
+                navigate('/home')
+                console.log("response", response)
+
+                formik.resetForm()
+                // console.log(values)
+            }
+            catch(err){
+
+                console.log(err)
+            }
+            
         }
     })
 
