@@ -4,6 +4,8 @@ import {useFormik} from "formik"
 import * as Yup from "yup";
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"
+
 
 function Login() {
 
@@ -42,7 +44,18 @@ function Login() {
 
                 const response = await axios.post("http://localhost:4000/dogUser/login",payload)
 
-                navigate('/home')
+                navigate('/')
+                toast.success("Logged In Successfully!!",{
+
+                    position: "top-right",
+                        autoClose: 3000, // 3 seconds
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                })
+
                 console.log("response", response)
 
                 formik.resetForm()
@@ -50,6 +63,17 @@ function Login() {
             }
             catch(err){
 
+                toast.error("Opps!! Login UnSuccessful.. Try Again..",{
+
+                    position: "top-right",
+                        autoClose: 3000, // 3 seconds
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                })
+                formik.resetForm()
                 console.log(err)
             }
             

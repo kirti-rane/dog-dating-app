@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import './Navbar.css'
+// import './ProfilePhoto.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-function Navbar() {
+function Navbar({profilePhoto}) {
 
     return (
         <div className='navbar'>
@@ -23,9 +24,25 @@ function Navbar() {
 
             </div>
             <div className="sidebar_links">
+                
                 <Link to="/signUp">SignUp</Link>
                 <Link to="/login">Login</Link>
                 <Link to="/aboutus">About Us</Link>
+                
+                <div className="profilePhotoWrapper">
+                    {profilePhoto ? (
+                        <img
+                            src={profilePhoto}
+                            alt="Profile"
+                            // className="profilePhoto"
+                        />
+                    ) : (
+                        <div className="profilePhoto"><i class="bi bi-person-circle fs-2"></i></div>
+                    )}
+                </div>
+
+
+
             </div>
 
 

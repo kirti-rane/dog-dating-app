@@ -5,7 +5,8 @@ const DogProfileSchema = require('../Models/DogProfileSchema')
 const { StatusCodes } = require('http-status-codes')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
+const { profile } = require('console');
 
 
 const saltRound = 10
@@ -113,7 +114,7 @@ const getUserDetails = async (request, response) => {
             }
         })
 
-        console.log(dogProfile.dataValues)
+        // console.log(dogProfile.dataValues)
 
         if (dogProfile) {
 
@@ -123,12 +124,40 @@ const getUserDetails = async (request, response) => {
 
             console.log(fetchedPassword)
 
-            if(!match){
+            const userDetails = {
 
-                return response.status(StatusCodes.UNAUTHORIZED).json({statusCode: StatusCodes.UNAUTHORIZED, message:"Login Unsuccessful!!"})
+                dogName: request.body.dogName,
+                ownerEmail: request.body.email,
+                age : dogProfile.dataValues.age,
+                gender: dogProfile.dataValues.gender,
+                breed: dogProfile.dataValues.breed
+
             }
 
-            return response.status(StatusCodes.OK).json({ statusCode: StatusCodes.OK, message: "User Found!!" })
+            //for production use(when code will not run on localhost)
+            const photoUrl =  `${request.protocol}://${request.get('host')}/uploads/${dogProfile.profilePhoto}`
+            console.log(photoUrl)
+
+            if(!match){
+
+                return response.status(StatusCodes.UNAUTHORIZED).json(
+                    {
+                        statusCode: StatusCodes.UNAUTHORIZED,
+                        message:"Login Unsuccessful!!"
+                    }
+                )
+            }
+
+
+            //console.log(request)
+
+            return response.status(StatusCodes.OK).json(
+                { 
+                    statusCode: StatusCodes.OK,
+                     message: "User Found!!",
+                     userDetails,
+                     photoUrl
+                 })
         }
 
         return response.status(StatusCodes.NOT_FOUND).json({ statusCode: StatusCodes.NOT_FOUND, message: " User Not Found!!" })

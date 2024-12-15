@@ -5,9 +5,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const DogUserRouter = require('./Routes/DogUsers');
 const app = express();
+const path = require('path')
+
 
 app.use(cors());
 app.use(bodyParser.json());
+//serves the uploads folder so that it can be accessible from the frontend 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/dogUser', DogUserRouter);
 
 app.use(bodyParser.urlencoded({ extended: false }));
