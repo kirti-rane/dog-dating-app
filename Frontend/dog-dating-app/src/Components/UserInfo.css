@@ -1,0 +1,60 @@
+
+.logoTitle{
+
+    background-color:#ff4c68;
+    height: 100px;
+    display:flex;
+    padding:20px;
+    align-items: center;
+    color:white;
+    padding-left:5%;
+    padding-right:2%;
+    
+}
+
+.logout{
+
+   margin-left: auto;
+   font-size: 20px;
+
+}
+
+
+.userPhoto{
+
+    display: flex; /* Makes the container a flexbox */
+    align-items: center; /* Centers items vertically */
+    padding: 20px; /* Adds space inside the container */
+    justify-content: center;
+}
+   
+.about{
+
+   
+    margin-left: 82%;
+    font-size: 20px;
+}
+
+.profilePhoto1{
+   
+    height:150px;
+    width: 150px;
+    border-radius: 10%;
+    
+
+}
+
+.profilePhotoWrapper1{
+
+    padding: 20px;
+
+}
+
+.details{
+
+    border: 1px solid red;
+    border-radius: 10px;
+    padding-right:15px;
+    padding-left: 20px;
+
+}

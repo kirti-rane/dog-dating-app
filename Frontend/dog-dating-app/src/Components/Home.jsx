@@ -2,8 +2,10 @@ import Navbar from './Navbar';
 import Reviews from './Reviews';
 import Carousel from 'react-bootstrap/Carousel';
 import './Home.css'
+import Footer from './Foooter';
 
 function Home() {
+
 
     return (
         <>
@@ -19,6 +21,7 @@ function Home() {
                     <Reviews image="/Assets/images-4.jpeg" name="John" review="Such a wonderful experience!" />
                 </Carousel.Item>
             </Carousel>
+            <Footer/>
         </>
     )
 }

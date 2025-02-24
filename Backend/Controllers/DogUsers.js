@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
 const { profile } = require('console');
+const { all } = require('../Routes/DogUsers');
 
 
 const saltRound = 10
@@ -170,4 +171,67 @@ const getUserDetails = async (request, response) => {
     }
 }
 
-module.exports = { addUsers, getUserDetails }
+const getAllUsers = async(request, response)=>{
+
+    try{
+
+        // console.log(request.body.dogName)
+
+        const { limit, offset, dogName, ownerEmail} = request.query;
+
+        console.log(request.query)
+        let allUsers = await DogProfileSchema.findAll({
+            attributes: ['dogName', 'age', 'gender', 'breed','profilePhoto'],
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            where: {
+
+                [Op.not]: [
+                    {
+                        dogName: dogName,
+                        ownerEmail: ownerEmail
+                    }
+                ]
+            }
+          })
+    
+
+        // console.log(allUsers)
+        // allUsers.forEach(user => {
+
+        //     allUserRecord = console.log(`Dog Name: ${user.dogName}, Age: ${user.age}, Owners Email: ${user.ownerEmail}`);
+        // });
+
+        //console.log(allUsers.DogProfile)
+
+        allUsers = allUsers.map(user => ({
+            ...user.toJSON(), // Convert Sequelize model instance to a plain object
+            profilePhotoUrl: `${request.protocol}://${request.get('host')}/uploads/${user.profilePhoto}`
+        }));
+
+        console.log("hiii we are after the call...")
+        console.log(allUsers)
+        
+        return response.status(StatusCodes.OK).json(
+            { 
+                statusCode: StatusCodes.OK,
+                 message: "User data fetched..",
+                 allUsers
+             })
+
+    }catch(error){
+
+        console.log(error.message)
+
+        return response.status(StatusCodes.BAD_GATEWAY).json(
+            {
+                statusCode: StatusCodes.BAD_GATEWAY,
+                message: "Failed to fetch all users!"
+            }
+        )
+    }
+
+
+}
+
+module.exports = { addUsers, getUserDetails, getAllUsers}

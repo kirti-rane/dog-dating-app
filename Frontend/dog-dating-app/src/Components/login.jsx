@@ -1,15 +1,20 @@
 import "./login.css"
 import Navbar from "./Navbar"
+import { useDispatch } from 'react-redux';
+import {login} from '../Store/userSlice'
 import {useFormik} from "formik"
 import * as Yup from "yup";
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify"
-
+import Footer from './Foooter'
 
 function Login() {
 
+    //instance 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
 
     const formik = useFormik({
 
@@ -29,7 +34,6 @@ function Login() {
         onSubmit:async (values)=>{
 
             //call the backend api using axios lib
-
             try{
 
                 const payload = {
@@ -44,7 +48,10 @@ function Login() {
 
                 const response = await axios.post("http://localhost:4000/dogUser/login",payload)
 
+                console.log(response.data)
                 navigate('/')
+                dispatch(login(response.data))
+
                 toast.success("Logged In Successfully!!",{
 
                     position: "top-right",
@@ -86,7 +93,7 @@ function Login() {
             <Navbar />
 
             <form onSubmit={formik.handleSubmit}>
-                <label for="dogName">Dog Name:</label>
+                <label htmlFor="dogName">Dog Name:</label>
                 <input 
                     type="text" 
                     id="dogName" 
@@ -97,7 +104,7 @@ function Login() {
                 />
                 {formik.touched.dogName && formik.errors.dogName ? <div>{formik.errors.dogName}</div>:null}
 
-                <label for="email">Owner's Email:</label>
+                <label htmlFor="email">Owner's Email:</label>
                 <input 
                     type="email" 
                     id="email" 
@@ -108,7 +115,7 @@ function Login() {
                 />
                 {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div>:null}
 
-                <label for="password">Password:</label>
+                <label htmlFor="password">Password:</label>
                 <input 
                     type="password" 
                     id="password" 
@@ -122,6 +129,8 @@ function Login() {
 
                 <button type="submit">Submit</button>
             </form>
+
+            <Footer/>
         </>
     )
 }

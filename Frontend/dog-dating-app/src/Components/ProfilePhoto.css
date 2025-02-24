@@ -8,8 +8,8 @@ label {
 }
 
 .profilePhotoWrapper {
-  width: 120px; /* Specify fixed size */
-  height: 120px; /* Specify fixed size */
+  width: 100px; /* Specify fixed size */
+  height: 100px; /* Specify fixed size */
   border-radius: 50%; /* Make the wrapper circular */
   overflow: hidden; /* Ensure content stays within the circle */
   display: flex; /* Center content horizontally and vertically */
@@ -22,14 +22,15 @@ label {
 .profilePhoto {
   width: 100%; /* Fill the wrapper */
   height: 100%; /* Fill the wrapper */
+  color:black;
   object-fit: cover; /* Keep aspect ratio and crop if necessary */
   border-radius: 50%; /* Ensure the image is circular */
 }
 
 .defaultIcon {
   font-size: 36px;
-  color: #aaa; /* Gray color for default icon */
-}
+  color: #131212; /* Gray color for default icon */
+}  
 
 .fileInput {
   display: none; /* Hide file input */

@@ -16,4 +16,6 @@ router.post('/signUp', (req, res, next) => {
 //get the user profile details
 router.post('/login',controller.getUserDetails)
 
+router.get('/swipeRight', controller.getAllUsers)
+
 module.exports = router;
